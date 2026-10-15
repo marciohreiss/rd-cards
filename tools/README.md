@@ -1,5 +1,6 @@
 # Ferramentas dos cards
 
+- `gen_1510.py`: carrosséis da rotina de 15/10/2026 (persona de IA sem rótulo, postado às 13h; 3 formatos que vendem, 18h).
 - `gen_trail_parte2.py`: trail parte 2 de 14/10/2026 13h (a semana de subida, dia a dia); fotos recortadas dos cards aprovados de 13/10.
 - `gen_1410.py`: carrosséis da rotina de 14/10/2026 (6h Informações de Pesquisas, 18h roteiro de 1 minuto).
 - `gen_1310_rotina.py`: carrosséis da rotina de 13/10/2026 (6h perfil, 18h marca d’água).
