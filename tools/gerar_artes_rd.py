@@ -18,12 +18,30 @@ DESTAQUE = (150, 214, 160)
 ALERTA = (226, 90, 80)
 BRANCO = (255, 255, 255)
 CINZA = (160, 175, 168)
-FB = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
-FR = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+_FONTES = Path(__file__).parent / "fonts"
+FB = str(_FONTES / "Poppins-Bold.ttf")
+FR = str(_FONTES / "Poppins-Medium.ttf")
+FSEMI = str(_FONTES / "Poppins-SemiBold.ttf")
+FANTON = str(_FONTES / "Anton-Regular.ttf")
+FSERIF = str(_FONTES / "DMSerifDisplay-Regular.ttf")
+OURO = (227, 167, 47)
+PAPEL = (243, 238, 227)
 
 
 def f(size, bold=True):
     return ImageFont.truetype(FB if bold else FR, size)
+
+
+def anton(size):
+    return ImageFont.truetype(FANTON, size)
+
+
+def semi(size):
+    return ImageFont.truetype(FSEMI, size)
+
+
+def serif(size):
+    return ImageFont.truetype(FSERIF, size)
 
 
 def fundo():
@@ -50,27 +68,31 @@ def quebra(d, texto, fonte, largura):
 
 
 def titulo(d, texto, y=170, largura=900):
-    for tam in (84, 76, 68, 60, 54):
-        fonte = f(tam)
+    texto = texto.upper()
+    for tam in (112, 100, 90, 80, 70, 62):
+        fonte = anton(tam)
         ls = quebra(d, texto, fonte, largura)
-        if len(ls) <= 4:
+        if len(ls) <= 3:
             break
+    passo = int(tam * 1.26)
     for i, ln in enumerate(ls):
-        d.text((W // 2, y + i * (tam + 14)), ln, font=fonte, fill=BRANCO, anchor="mt")
-    return y + len(ls) * (tam + 14)
+        d.text((W // 2, y + i * passo), ln, font=fonte, fill=BRANCO, anchor="mt")
+    return y + len(ls) * passo
 
 
 def chip(d, texto):
-    fonte = f(30)
-    w = d.textlength(texto, font=fonte) + 56
+    fonte = semi(28)
+    texto = "  ".join(texto.upper())  # espacejamento de letras
+    w = d.textlength(texto, font=fonte) + 64
     x0 = (W - w) / 2
-    d.rounded_rectangle([x0, 70, x0 + w, 126], 28, fill=DESTAQUE)
-    d.text((W / 2, 98), texto, font=fonte, fill=GRAFITE, anchor="mm")
+    d.rounded_rectangle([x0, 66, x0 + w, 122], 28, fill=OURO)
+    d.text((W / 2, 94), texto, font=fonte, fill=GRAFITE, anchor="mm")
 
 
 def rodape(d, texto):
-    d.rounded_rectangle([60, 1200, W - 60, 1290], 24, fill=CLARO)
-    d.text((W / 2, 1245), texto, font=f(34), fill=GRAFITE, anchor="mm")
+    d.rounded_rectangle([60, 1196, W - 60, 1290], 47, fill=PAPEL)
+    d.ellipse([92, 1232, 118, 1258], fill=OURO)
+    d.text((W / 2 + 14, 1243), texto, font=semi(34), fill=GRAFITE, anchor="mm")
 
 
 def estrela(d, cx, cy, r, cor):
@@ -122,7 +144,7 @@ def ilus_lupa(d):
         xis(d, 300 + i * 40, 850 + i * 20, 30)
     d.rounded_rectangle([560, 700, 960, 1000], 30, fill=CLARO)
     for i in range(5):
-        estrela(d, 625 + i * 68, 790, 30, (240, 180, 40))
+        estrela(d, 625 + i * 68, 790, 30, OURO)
     d.text((760, 880), "4,7+", font=f(96), fill=GRAFITE, anchor="mm")
     d.ellipse([850, 930, 940, 1020], fill=DESTAQUE)
     check(d, 895, 975, 24, GRAFITE, 10)
@@ -174,7 +196,7 @@ def ilus_equacao(d):
     d.text((210, 935), "vendas", font=f(36, False), fill=GRAFITE, anchor="mm")
     d.text((385, 880), "+", font=f(90), fill=BRANCO, anchor="mm")
     d.ellipse([450, 760, 690, 1000], fill=CLARO)
-    estrela(d, 570, 825, 40, (240, 180, 40))
+    estrela(d, 570, 825, 40, OURO)
     d.text((570, 920), "4,7+", font=f(70), fill=GRAFITE, anchor="mm")
     d.text((735, 880), "=", font=f(90), fill=BRANCO, anchor="mm")
     cx, cy = 900, 880
